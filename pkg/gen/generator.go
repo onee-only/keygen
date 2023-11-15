@@ -1,14 +1,17 @@
 package keygen
 
-import "math/rand"
+import (
+	"math/rand"
+	"time"
+)
 
 type BaseConfig struct {
 	RandSource rand.Source
 }
 
-func defaultBaseConfig() BaseConfig {
+func DefaultBaseConfig() BaseConfig {
 	return BaseConfig{
-		RandSource: nil,
+		RandSource: rand.NewSource(time.Now().UnixNano()),
 	}
 }
 

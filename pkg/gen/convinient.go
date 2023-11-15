@@ -22,16 +22,6 @@ type ConvConfig struct {
 	UseSymbol bool
 }
 
-func DefaultConvConfig() *ConvConfig {
-	return &ConvConfig{
-		BaseConfig: defaultBaseConfig(),
-		UseUpper:   true,
-		UseLower:   true,
-		UseNumber:  true,
-		UseSymbol:  false,
-	}
-}
-
 func NewConvGenerator(conf *ConvConfig) Generator {
 	gen := customGenerator{
 		conf: &CustomConfig{

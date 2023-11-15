@@ -46,7 +46,7 @@ func (g *customGenerator) GenerateStream() (s <-chan []byte, cancel func()) {
 func (g *customGenerator) makeNew() []byte {
 
 	buf := make([]byte, g.conf.Len)
-	for i := 0; i < int(g.conf.Len); i++ {
+	for i := uint64(0); i < g.conf.Len; i++ {
 		idx := g.rand.Intn(len(g.charset))
 		buf[i] = g.charset[idx]
 	}

@@ -1,7 +1,7 @@
 package keygen
 
 import (
-	"github.com/onee-only/keygen/internal/convert"
+	"github.com/onee-only/keygen/internal/util"
 	"github.com/pkg/errors"
 	regen "github.com/zach-klippenstein/goregen"
 )
@@ -9,7 +9,8 @@ import (
 // Config is configuration for regex matching random string.
 type RegexConfig struct {
 	BaseConfig
-	Regex string
+	Regex     string
+	MaxRepeat uint16
 }
 
 type regexGenerator struct {
@@ -22,6 +23,7 @@ func NewRegexGenerator(conf *RegexConfig) (Generator, error) {
 	var args regen.GeneratorArgs
 
 	args.RngSource = conf.RandSource
+	args.MaxUnboundedRepeatCount = uint(conf.MaxRepeat)
 
 	regen, err := regen.NewGenerator(conf.Regex, &args)
 	if err != nil {
@@ -43,7 +45,7 @@ func (g *regexGenerator) GenerateStream() (s <-chan []byte, cancel func()) {
 			select {
 			case <-done:
 				return
-			case stream <- convert.StrToBytes(g.gen.Generate()):
+			case stream <- util.StrToBytes(g.gen.Generate()):
 			}
 		}
 	}()
